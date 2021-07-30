@@ -1,48 +1,54 @@
 const express = require('express');
 const cors = require('cors');
-
-
+const { connectDB } = require('../database/config');
 
 class Server {
 
-	constructor(){
-		this.app = express()
-		this.port = process.env.PORT
-		this.usersPath = 'api/users'
+    constructor() {
+        this.app  = express();
+        this.port = process.env.PORT;
+        this.usuariosPath = '/api/usuarios';
 
-		/* middlewares */
-		this.middlewares()
+        // Conectar base de datos
+        this.conectarDB()
 
-		this.routes()
-	}
+        // Middlewares
+        this.middlewares();
 
-	middlewares(){
+        // Rutas de mi aplicación
+        this.routes();
+    }
 
-		/*Ruta public*/
-		this.app.use(express.static('public'))
+    async conectarDB() {
+        await connectDB()
+    }
 
-		/* Leer y parsear body */
-		this.app.use(express.json())
+    middlewares() {
 
-		/*cyan: revisar como configurar cors whitelist*/
-		this.app.use(cors())
+        // CORS
+        this.app.use( cors() );
 
-	}
+        // Lectura y parseo del body
+        this.app.use( express.json() );
 
-	routes(){
+        // Directorio Público
+        this.app.use( express.static('public') );
 
-		this.app.use(this.usersPath, require('../routes/users'))
+    }
 
-	}
+    routes() {
+        this.app.use( this.usuariosPath, require('../routes/usuarios'));
+    }
 
-	listen(){
-		this.app.listen(this.port, () =>{
-			console.log("Servidor alojado en el puerto", this.port);
-		})
-	}
+    listen() {
+        this.app.listen( this.port, () => {
+            console.log('Servidor corriendo en puerto', this.port );
+        });
+    }
 
 }
 
-module.exports = Server
 
 
+
+module.exports = Server;
