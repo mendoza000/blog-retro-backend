@@ -35,9 +35,7 @@ const usuariosPost = async (req, res = response) => {
 	// Guarda en la DB
 	await user.save()
 
-	let { pass: password, __v, ...data } = user._doc
-
-	res.json(data);
+	res.json(user);
 }
 
 const usuariosPut = async (req, res = response) => {
@@ -54,9 +52,8 @@ const usuariosPut = async (req, res = response) => {
 	// Validar contra la base de datos
 	const user = await User.findByIdAndUpdate(id, resto)
 
-	let { pass: password, __v, ...data } = user._doc
 
-	res.json(data);
+	res.json(user);
 }
 
 const usuariosPatch = (req, res = response) => {
@@ -70,10 +67,15 @@ const usuariosDelete = async (req, res = response) => {
 	const {id} = req.params
 	const option = { status: false }
 
-	const user = await User.findByIdAndUpdate(id, option)
+	const [userDelete] = await Promise.all([
+	        User.findByIdAndUpdate(id, option)
+	    ])
+	const userByDelete = req.user
 
 	res.json({
 		msg: "User status delete",
+		userDelete,
+		userByDelete
 	});
 }
 
