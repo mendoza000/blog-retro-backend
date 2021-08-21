@@ -37,7 +37,8 @@ const authLogin = async(req, res) => {
 
 
 		res.json({
-			msg: "funcionando authLogin",
+			msg: "Inicio de sesion exitoso!",
+			user,
 			token
 		})
 
