@@ -120,19 +120,21 @@ const updateFileCloudinary = async (req, res) => {
 	 
 	try{
 		const {secure_url} = await cloudinary.uploader.upload(tempFilePath)
+
+		model.img = secure_url
+		await model.save()
+
+		return res.json({
+			model
+		})
 	} catch(err){
 		console.log('No se ha podido subir la imagen')
-		res.status(500).json({
+		return res.status(500).json({
 			msg: 'No se pudo subir la imagen :p'
 		})
 	}
 
-	model.img = secure_url
-	await model.save()
-
-	res.json({
-		model
-	})
+	
 
 }
 
