@@ -32,7 +32,11 @@ const ProductSchema = Schema({
 	stonks:{
 		type: Boolean,
 		default: true
+	},
+	img:{
+		type: String
 	}
+
 })
 
 module.exports = model('Product', ProductSchema)
