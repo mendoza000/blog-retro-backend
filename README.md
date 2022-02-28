@@ -1,3 +1,13 @@
-# WebServer + RestServer
+# Backend para el blog
 
-Recuerden que deben de ejecutar ```npm install``` para reconstruir los módulos de Node.
+Instalar dependencias
+```
+npm i
+```
+--
+Correr el servidor localmente
+```
+nodemon app.js || node app.js
+```
+--
+
