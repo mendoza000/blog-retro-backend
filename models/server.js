@@ -12,12 +12,7 @@ class Server {
         this.app  = express();
         this.port = process.env.PORT;
         this.paths   = {
-            auth: '/api/auth',
-            categorias: '/api/categorias',
-            users: '/api/usuarios',
-            uploads: '/api/uploads',
-            productos : '/api/productos',
-            search: '/api/search'
+            articles: '/api/articles'
         };
 
         // Conectar base de datos
@@ -45,22 +40,10 @@ class Server {
         // Directorio Público
         this.app.use( express.static('public') );
 
-        // Fileupload - carga de archivos
-        this.app.use( fileUpload({
-            useTempFiles: true,
-            tempFileDir: '/tmp/',
-            createParentPath: true
-        }))
-
     }
 
     routes() {
-        this.app.use( this.paths.auth, require('../routes/auth'));
-        this.app.use( this.paths.productos, require('../routes/productos'))
-        this.app.use( this.paths.search, require('../routes/search') )
-        this.app.use( this.paths.users, require('../routes/usuarios'));
-        this.app.use( this.paths.uploads, require('../routes/uploads'));
-        this.app.use( this.paths.categorias, require('../routes/categorias'))
+        this.app.use(this.paths.articles, require('../routes/articles'))
     }
 
     listen() {
