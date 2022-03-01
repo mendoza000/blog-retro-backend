@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/users');
+const Admin = require('../models/admin.model');
 
 const validarJWT = async (req, res, next) => {
 
@@ -16,7 +16,7 @@ const validarJWT = async (req, res, next) => {
 		const {uid} = jwt.verify( token, process.env.SECRETORPRIVATEKEY )
 
 		req.uid = uid
-		req.user = await User.findById(req.uid)
+		req.admin = await Admin.findById(req.uid)
 
 		next()
 

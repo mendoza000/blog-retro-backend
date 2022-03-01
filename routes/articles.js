@@ -4,13 +4,15 @@ const {
   getArticles,
   createArticle,
   getArticleById,
-  deleteArticle
+  deleteArticle,
+  updateArticle
 } = require('../controllers/articles.controller')
 const {
   validateTitle,
   validateExist
 } = require('../middlewares/validateArticle')
 const {validarCampos} = require('../middlewares/validar-campos');
+const {validarJWT} = require('../middlewares/validar-jwt')
 
 const router = Router()
 
@@ -21,6 +23,8 @@ router.get('/', getArticles);
 router.post('/new', [
   check('title').not().isEmpty(),
   check('text').not().isEmpty(),
+  check('username').not().isEmpty(),
+  validarJWT,
   validateTitle,
   validarCampos
 ], createArticle)
@@ -37,17 +41,19 @@ router.get('/:id', [
 router.delete('/:id', [
   check('id').not().isEmpty(),
   check('id').isMongoId(),
+  validarJWT,
   validateExist,
   validarCampos
 ], deleteArticle)
 
-// TODO: Update article
+// Update article
 router.put('/:id', [
   check('id').not().isEmpty(),
   check('id').isMongoId(),
+  validarJWT,
   validateExist,
   validarCampos
-])
+], updateArticle)
 
 module.exports = router
 

@@ -19,13 +19,14 @@ const getArticles = async (req = request, res = response) => {
 }
 
 const createArticle = async (req = request, res = response) => {
-  const {title, text} = req.body
+  const {title, text, username} = req.body
   const date = moment().format('MMM DD. YY')
 
   const data = {
     title,
     text,
-    date
+    date,
+    username
   }
 
   const article = new Article(data)
@@ -55,9 +56,26 @@ const deleteArticle = async (req=request, res=response) => {
   res.json(article)
 }
 
+const updateArticle = async (req, res) => {
+  const {text, title, username} = req.body
+  const newText = (text) ? text : req.article.text
+  const newTitle = (title) ? title : req.article.title
+  const newUsername = (username) ? username : req.article.username
+
+  const data = {
+    text: newText,
+    title: newTitle,
+    username: newUsername
+  }
+
+  const article = await Article.findByIdAndUpdate(req.article._id, data)
+
+  res.json(article)
+}
 module.exports = {
   getArticles,
   createArticle,
   getArticleById,
-  deleteArticle
+  deleteArticle,
+  updateArticle
 }

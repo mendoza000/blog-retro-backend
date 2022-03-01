@@ -19,6 +19,10 @@ const ArticleScheme = Schema({
 	text: {
 		type: String,
 		required: [true, 'El contendio del articulo es requerido.']
+	},
+	username: {
+		type: String,
+		required: [true, 'El username del autor es requrido']
 	}
 
 })
