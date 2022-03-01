@@ -34,7 +34,30 @@ const createArticle = async (req = request, res = response) => {
   res.status(201).json(article)
 }
 
+const getArticleById = async (req=request, res=response) => {
+  const {id} = req.params
+  const article = await Article.findById(id)
+  
+  if(article === null) res.status(400).json({
+    msg: "No encontramos ningun articulo con ese id",
+    error: true
+  })
+  res.json(article)
+}
+
+const deleteArticle = async (req=request, res=response) => {
+  const {id} = req.params;
+  const data = {
+    status: false
+  }
+  const article = await Article.findByIdAndUpdate(id, data)
+
+  res.json(article)
+}
+
 module.exports = {
   getArticles,
-  createArticle
+  createArticle,
+  getArticleById,
+  deleteArticle
 }
